@@ -107,7 +107,6 @@ export const UpdateProfile = async(req,res)=>{
             {new : true}
         );
             
-
         res.status(200).json(updatedUser)
     }
 
