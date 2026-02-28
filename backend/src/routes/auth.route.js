@@ -15,5 +15,9 @@ router.put("/update-profile",protectRoute,UpdateProfile)
 
 router.get("/check",protectRoute, checkAuth);
 
+router.get("/logged",(req,res)=>{
+    res.json({message:"You are logged in"});
+})
+
 export default router;
 
