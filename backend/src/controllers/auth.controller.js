@@ -5,8 +5,6 @@ import cloudinary from '../lib/clodinary.js';
 
 export const signup = async (req,res)=>{
     const{fullName,email,password} = req.body;
-    console.log("Signup request body:", req.body);
-
     try{
         
         if(!fullName || !email || !password){
@@ -86,7 +84,7 @@ export const login = async (req,res)=>{
 
 export const logout = (req,res)=>{
     try{
-        res.cookie("jwt","",{maxAge:0});
+        res.cookie("token","",{maxAge:0});
         return res.status(200).json({message:"Successfully logged out"});
     }
     catch(error){
