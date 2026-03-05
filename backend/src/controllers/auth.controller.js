@@ -57,28 +57,30 @@ export const login = async (req,res)=>{
 
         const user = await User.findOne({email});
 
-    if(!user){
-        return res.status(400).json({message : "Invalid credentials"});
+        if(!user){
+            return res.status(400).json({message : "Invalid credentials"});
+        }
+
+        const isPassword = bcrypt.compare(password,user.password);
+
+        if(!isPassword){
+            return res.status(400).json({message : "Invalid credentials"});
+        }
+
+        generateToken(user._id,res);
+
+        return res.status(200).json({
+            _id : user._id,
+            name : user.name,
+            email : user.email,
+            profilePic : user.ProfilePic,
+        })
+    }   
+        
+    catch(error){
+        console.log(error);
+        return res.status(500).json({message:"InternalServer Error"});
     }
-
-    const isPassword = bcrypt.compare(password,user.password);
-
-    if(!isPassword){
-        return res.status(400).json({message : "Invalid credentials"});
-    }
-
-    generateToken(user._id,res);
-
-    return res.status(200).json({
-        _id : user._id,
-        name : user.name,
-        email : user.email,
-        profilePic : user.ProfilePic,
-    })
-}   catch(error){
-    console.log(error);
-    return res.status(500).json({message:"InternalServer Error"});
-}
 
 }
 
@@ -106,6 +108,7 @@ export const UpdateProfile = async(req,res)=>{
             {profilePic : uploadResponse.secure_url},
             {new : true}
         );
+        
             
         res.status(200).json(updatedUser)
     }
@@ -116,7 +119,6 @@ export const UpdateProfile = async(req,res)=>{
     }
 
 }
-
 
 export const checkAuth = (req, res) => {
     try {

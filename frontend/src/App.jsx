@@ -17,19 +17,19 @@ import { useEffect } from 'react'
 const App = () => {
   const {authUser,checkAuth,isCheckingAuth} = useAuthStore();
 
-  // useEffect(()=>{
-  //   checkAuth();
+  useEffect(()=>{
+    checkAuth();
 
-  // },[checkAuth]);  
+  },[checkAuth]);  
 
-  // console.log({authUser});
+  console.log({authUser});
 
-  // if(isCheckingAuth && !authUser) {
-  //   return(
-  //   <div className='flex justify-center items-center h-screen'>
-  //     <Loader className="size-10 animate-spin" />
-  //   </div>  
-  // )};
+  if(isCheckingAuth && !authUser) {
+    return(
+    <div className='flex justify-center items-center h-screen'>
+      <Loader className="size-10 animate-spin" />
+    </div>
+  )};
 
 
   return (
