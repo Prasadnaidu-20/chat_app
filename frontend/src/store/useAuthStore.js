@@ -8,6 +8,7 @@ export const useAuthStore = create((set) =>({
     isLoggingIn:false,
     isUpdatingProfile:false,
     isCheckingAuth:false, 
+    onlineUsers : [],
 
     checkAuth: async() =>{  
         set({isCheckingAuth: true});
@@ -69,10 +70,16 @@ export const useAuthStore = create((set) =>({
         }
     },
 
-    updateProfile : async(data) =>{
+    updateProfile : async(file) =>{
         set({isUpdatingProfile: true});
         try{
-            const res = await axiosInstance.put("/auth/update-profile",data);
+            const formData = new FormData();
+            formData.append("profilePic", file);
+            const res = await axiosInstance.put("/auth/update-profile",formData,{
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
             set({authUser: res.data});
             toast.success("Profile got updated successfully");
         }
